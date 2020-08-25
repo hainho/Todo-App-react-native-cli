@@ -1,22 +1,37 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-import Header from './Header';
-import Body from './Body';
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
+import Header from './Header';
+import Body from './Body';
 
 export default class App extends React.Component {
+  state = {
+    todos: [],
+  };
+
+  // 할일 추가 함수
+  addTodo = (todo) => {
+    // 새로운 할일(todo) 객체 생성
+    const newTodo = {
+      id: Date.now(), // 등록시간
+      text: todo, // 할일 내용
+      completed: false, // 완료 여부
+    };
+
+    // state 업데이트
+    this.setState((prevState) => ({
+      todos: [
+        newTodo, // 새로 추가된 할일(todo)
+        ...prevState.todos, // 기존의 할일 목록
+      ],
+    }));
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Hello world!!</Text>
-        <Header></Header>
-        <Body></Body>
+        <Text style={styles.title}>Todo App</Text>
+        <Header addTodo={this.addTodo} />
+        <Body todos={this.state.todos} />
       </View>
     );
   }
@@ -24,14 +39,10 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    //비율 설정
     flex: 1,
-
-    //container 내부의 아이템들의 방향
     flexDirection: 'column',
-
-    //앱 전체와 상단과의 거리
     paddingTop: 50,
+    backgroundColor: '#EEE',
   },
   title: {
     fontWeight: '800',

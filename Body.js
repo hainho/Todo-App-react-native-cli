@@ -1,31 +1,19 @@
-import React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native';
 
-class Body extends React.Component {
+class Body extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.todo}>
-          <View style={styles.todoText}>
-            <Image source={require('./assets/unchecked.png')} />
-            <Text>할일1</Text>
+        {this.props.todos.map((data) => (
+          <View style={styles.todo} key={data.id}>
+            <View style={styles.todoText}>
+              <Image source={require('./assets/checked.png')} size={20} />
+              <Text>{data.text}</Text>
+            </View>
+            <Image source={require('./assets/del.png')} size={20}></Image>
           </View>
-          <Image source={require('./assets/del.png')}></Image>
-        </View>
-        <View style={styles.todo}>
-          <View style={styles.todoText}>
-            <Image source={require('./assets/unchecked.png')} />
-            <Text>할일2</Text>
-          </View>
-          <Image source={require('./assets/del.png')}></Image>
-        </View>
-        <View style={styles.todo}>
-          <View style={styles.todoText}>
-            <Image source={require('./assets/unchecked.png')} />
-            <Text>할일3</Text>
-          </View>
-          <Image source={require('./assets/del.png')}></Image>
-        </View>
+        ))}
       </View>
     );
   }
