@@ -24,6 +24,29 @@ export default class App extends React.Component {
         ...prevState.todos, // 기존의 할일 목록
       ],
     }));
+
+    // 콘솔창에 출력해보자~
+    console.log(this.state.todos);
+  };
+
+  checkTodo = (id) => {
+    this.setState((prevState) => {
+      const [todo] = prevState.todos.filter((e) => e.id === id);
+      todo.completed = !todo.completed;
+      return {
+        todos: [...prevState.todos],
+      };
+    });
+  };
+
+  removeTodo = (id) => {
+    this.setState((prevState) => {
+      const index = prevState.todos.findIndex((e) => e.id === id);
+      prevState.todos.splice(index, 1);
+      return {
+        todos: [...prevState.todos],
+      };
+    });
   };
 
   render() {
@@ -31,7 +54,11 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Text style={styles.title}>Todo App</Text>
         <Header addTodo={this.addTodo} />
-        <Body todos={this.state.todos} />
+        <Body
+          todos={this.state.todos}
+          checkTodo={this.checkTodo}
+          removeTodo={this.removeTodo}
+        />
       </View>
     );
   }

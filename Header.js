@@ -32,8 +32,11 @@ class Header extends Component {
             value={this.state.newTodo}
             onChangeText={(newTodo) => this.setState({newTodo})}
           />
-          <TouchableOpacity onPress={this.addNewTodo}>
-            <Image source={require('./assets/plus.png')} />
+          <TouchableOpacity onPress={this.addNewTodo} activeOpacity={0.5}>
+            <Image
+              source={require('./assets/plus.png')}
+              style={styles.addBtn}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -60,6 +63,9 @@ const styles = StyleSheet.create({
   },
   inputText: {
     flex: 1,
+  },
+  addBtn: {
+    color: '#4169E1',
   },
 });
 
