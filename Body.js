@@ -1,51 +1,120 @@
 import React, {Component} from 'react';
 import {StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native';
+import TodoDetail from './TodoDetail';
 
 class Body extends Component {
-  state = [
-    {
-      text: '할일1',
-      completed: false,
-    },
-    {
-      text: '할일2',
-      completed: true,
-    },
-    {
-      text: '할일3',
-      completed: false,
-    },
-  ];
+  state = {
+    newTodoDetail: '',
+  };
+
+  addNewTodoDetail = () => {
+    if (this.state.newTodoDetail) {
+      this.props.addTodoDetail(this.state.newTodoDetail);
+      this.setState({
+        newTodoDetail: '',
+      });
+    }
+  };
 
   render() {
     return (
       <View style={styles.container}>
         {this.props.todos.map((data) => (
-          <View style={styles.todo} key={data.id}>
-            <View style={styles.todoText}>
-              <TouchableOpacity
-                style={styles.todoCheckbox}
-                onPress={() => this.props.checkTodo(data.id)}>
-                {data.completed ? (
-                  <Image source={require('./assets/checked.png')} size={20} />
-                ) : (
-                  <Image source={require('./assets/unchecked.png')} size={20} />
-                )}
-              </TouchableOpacity>
-              <Text
-                style={[
-                  data.completed
-                    ? styles.todoCompleted
-                    : styles.todoNotCompleted,
-                ]}>
-                {data.text}
-              </Text>
+          <View>
+            <View style={styles.todo} key={data.id}>
+              <View style={styles.todoText}>
+                <TouchableOpacity
+                  style={styles.todoCheckbox}
+                  onPress={() => this.props.checkTodo(data.id)}>
+                  {data.completed ? (
+                    <Image source={require('./assets/checked.png')} size={20} />
+                  ) : (
+                    <Image
+                      source={require('./assets/unchecked.png')}
+                      size={20}
+                    />
+                  )}
+                </TouchableOpacity>
+                <Text
+                  style={[
+                    data.completed
+                      ? styles.todoCompleted
+                      : styles.todoNotCompleted,
+                  ]}>
+                  {data.text}
+                </Text>
+              </View>
+              <View style={styles.todoIcons}>
+                <TouchableOpacity
+                  onPress={this.addNewTodoDetail}
+                  activeOpacity={0.5}>
+                  <Image
+                    source={require('./assets/plus.png')}
+                    style={styles.addBtn}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => this.props.removeTodo(data.id)}>
+                  <Image source={require('./assets/del.png')} size={20}></Image>
+                </TouchableOpacity>
+              </View>
             </View>
-            <TouchableOpacity onPress={() => this.props.removeTodo(data.id)}>
-              <Image source={require('./assets/del.png')} size={20}></Image>
-            </TouchableOpacity>
+
+            {/* {this.props.todoDetails.map((deData) => (
+              <View>
+                <View style={styles.todo} key={deData.id}>
+                  <View style={styles.todoText}>
+                    <TouchableOpacity
+                      style={styles.todoCheckbox}
+                      onPress={() => this.props.checkTodo(deData.id)}>
+                      {deData.completed ? (
+                        <Image
+                          source={require('./assets/checked.png')}
+                          size={20}
+                        />
+                      ) : (
+                        <Image
+                          source={require('./assets/unchecked.png')}
+                          size={20}
+                        />
+                      )}
+                    </TouchableOpacity>
+                    <TextInput
+                      style={[
+                        deData.completed
+                          ? styles.todoCompleted
+                          : styles.todoNotCompleted,
+                      ]}
+                      placeholder="Enter new todo"
+                      autoCorrect={false}
+                      value={this.state.newTodoDetail}
+                      onChangeText={(newTodoDetail) =>
+                        this.setState({newTodoDetail})
+                      }
+                    />
+                  </View>
+                  <View style={styles.todoIcons}>
+                    {/* <TouchableOpacity
+                onPress={this.addNewTodoDetail}
+                activeOpacity={0.5}>
+                <Image
+                  source={require('./assets/plus.png')}
+                  style={styles.addBtn}
+                />
+              </TouchableOpacity> */}
+            {/* <TouchableOpacity
+                      onPress={() => this.props.removeTodo(deData.id)}>
+                      <Image
+                        source={require('./assets/del.png')}
+                        size={20}></Image>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            ))} */}
           </View>
         ))}
+        <TodoDetail></TodoDetail>
       </View>
     );
   }
@@ -83,6 +152,9 @@ const styles = StyleSheet.create({
   todoCompleted: {
     color: '#bbb',
     textDecorationLine: 'line-through',
+  },
+  todoIcons: {
+    flexDirection: 'row',
   },
 });
 
